@@ -37,10 +37,13 @@ class CampsiteInfo extends Component{
     const {campsite} = this.props; //this.prop replaced with newly defined Variable
     if(campsite){
       return(
-        <div className="row"> 
-          {this.renderCampsite(campsite)} 
-          {this.renderComments(campsite.comments)}  
+        <div className="container">
+          <div className="row"> 
+            {this.renderCampsite(campsite)} 
+            {this.renderComments(campsite.comments)}  
+          </div>
         </div>
+
       );
     }
     return <div/>;
