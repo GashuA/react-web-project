@@ -1,5 +1,13 @@
-import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+/* eslint-disable react/jsx-pascal-case */
+import { Card, CardImg, CardText, CardBody, Breadcrumb, BreadcrumbItem, Button, Label, 
+  Modal, ModalHeader, ModalBody} from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Component } from 'react';
+import { Control, LocalForm, Errors} from 'react-redux-form';
+
+
+const maxNameLength = nameLen => nameVal => !(nameVal) || (nameVal.length <= nameLen);
+const minNameLength = nameLen => nameVal => nameVal && (nameVal.length >= nameLen);
 
 function RenderCampsite({campsite}){
   return( 
@@ -24,6 +32,7 @@ function RenderComments({comments}){
           -- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}<br/>
           </span> )
         }
+        <CommentForm/>
       </div>
     )
   }
@@ -52,6 +61,87 @@ function CampsiteInfo(props){
     );
   }
   return <div/>;
+}
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        isModalOpen: false
+      };
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  toggleModal() {
+    this.setState({
+        isModalOpen: !this.state.isModalOpen
+    });
+  }
+
+  handleSubmit(values) {
+    console.log("Current state is: " + JSON.stringify(values));
+    alert("Current state is: " + JSON.stringify(values));
+  }
+
+  render () {
+    return (
+      <div>
+        <Button outline onClick={this.toggleModal}> 
+          <i className="fa fa-pencil fa-lg"/> Submit Comment
+        </Button>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+            <ModalBody>
+              <LocalForm onSubmit={values => this.handleSubmit(values)}>
+                  <div className="form-group">
+                      <Label htmlFor="rating">Rating</Label>
+                      <Control.select model=".rating" id="rating" name="rating"
+                          className="form-control">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                      </Control.select>
+                  </div>
+                  <div className="form-group">
+                      <Label htmlFor="author">Your Name</Label>
+                      <Control.text model=".author" id="author" name="author"
+                          placeholder="Your Name"
+                          className="form-control"
+                          validators={{
+                            minNameLength: minNameLength(2), 
+                            maxNameLength: maxNameLength(15)
+                        }}
+                      />
+                      <Errors
+                          className="text-danger"
+                          model=".author"
+                          show="touched"
+                          component="div"
+                          messages={{
+                              minNameLength: 'Must be at least 2 characters',
+                              maxNameLength: 'Must be 15 characters or less'
+                          }}
+                        />
+                  </div>
+                  <div className="form-group">
+                      <Label htmlFor="text">Comment</Label>
+                          <Control.textarea model=".comment" id="comment" name="comment"
+                              rows="6"
+                              className="form-control"
+                          />
+                  </div>
+                  <Button type="submit" color="primary">
+                      Submit
+                  </Button>
+              </LocalForm>
+            </ModalBody>
+        </Modal>
+      </div>
+    )
+  }
 }
 
 export default CampsiteInfo;
