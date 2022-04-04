@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react';
-// import { Breadcrumb, BreadcrumbItem, Button, Form, FormFeedback, FormGroup, Label, Input, Col } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, Form, Errors } from 'react-redux-form';
@@ -33,7 +32,7 @@ class  Contact extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleInputChange(event) {
+   handleInputChange(event) {
         const target = event.target;
         const name = target.name;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -41,7 +40,7 @@ class  Contact extends Component {
         this.setState({
             [name]: value
         });
-    }
+    } 
 
     handleSubmit(values) {
         this.props.postFeedback(values);

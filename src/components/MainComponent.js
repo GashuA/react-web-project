@@ -12,25 +12,6 @@ import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartn
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-const mapStateToProps = state => {
-    return {
-        campsites: state.campsites,
-        comments: state.comments,
-        partners: state.partners,
-        promotions: state.promotions
-    };
-};
-
-const mapDispatchToProps = {
-    postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text)),
-    fetchCampsites: () => (fetchCampsites()),
-    resetFeedbackForm: () => (actions.reset('feedbackForm')),
-    fetchComments: () => (fetchComments()),
-    fetchPromotions: () => (fetchPromotions()),
-    fetchPartners: () => (fetchPartners()),
-    postFeedback: (feedbackInfo) => (postFeedback(feedbackInfo)),
-
-};
 
 class Main extends Component {  
 
@@ -91,5 +72,25 @@ class Main extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        campsites: state.campsites,
+        comments: state.comments,
+        partners: state.partners,
+        promotions: state.promotions
+    };
+};
+
+const mapDispatchToProps = {
+    postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text)),
+    fetchCampsites: () => (fetchCampsites()),
+    resetFeedbackForm: () => (actions.reset('feedbackForm')),
+    fetchComments: () => (fetchComments()),
+    fetchPromotions: () => (fetchPromotions()),
+    fetchPartners: () => (fetchPartners()),
+    postFeedback: (feedbackInfo) => (postFeedback(feedbackInfo)),
+
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
